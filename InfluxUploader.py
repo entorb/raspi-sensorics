@@ -1,5 +1,11 @@
 #!/usr/bin/python3
 
+# uploads data into InfluxDB
+# read credentials from .ini file
+
+# install via
+# pip3 install influxdb-client
+
 from influxdb import InfluxDBClient
 from configparser import ConfigParser
 
@@ -11,7 +17,8 @@ class InfluxUploader():
             print("InfluxUploader: verbose = True")
         self.config = ConfigParser(interpolation=None)
         # interpolation=None -> treats % in values as char % instead of interpreting it
-        self.config.read('InfluxUploader.ini', encoding='utf-8')
+        self.config.read(
+            '/home/pi/influx-collectors/InfluxUploader.ini', encoding='utf-8')
         self.con = self.connect()
 
     def connect(self) -> InfluxDBClient:
@@ -36,7 +43,8 @@ class InfluxUploader():
 
         # time_precision is important for performance
         if self.con.write_points(json, time_precision="s") == True:
-            print("data inserted into InfluxDB")
+            if self.verbose:
+                print("data inserted into InfluxDB")
         else:
             print("ERROR: Write to InfluxDB not successful")
 
