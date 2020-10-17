@@ -6,6 +6,9 @@
 # converted to Python3 syntax
 # converted to class
 
+# install requirements
+# sudo apt-get install python-smbus python3-smbus python-dev python3-dev i2c-tools
+
 
 # --------------------------------------
 #    ___  ___  _ ____

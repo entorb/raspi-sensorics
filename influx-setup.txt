@@ -1,0 +1,35 @@
+Setup of /etc/influxdb/influxdb.conf
+[http]
+  # Determines whether HTTP endpoint is enabled.
+  enabled = true
+
+  # The bind address used by the HTTP service.
+  bind-address = ":8086"
+
+  # Determines whether user authentication is enabled over HTTP/HTTPS.
+  auth-enabled = true
+
+
+
+
+start via 
+influx -precision rfc3339
+or
+influx
+precision rfc3339
+
+SHOW DATABASES
+CREATE DATABASE raspi
+USE raspi
+SHOW MEASUREMENTS
+SHOW RETENTION POLICIES
+# SHOW FIELD KEYS FROM table1
+
+create user uread  with password 'xxx'
+create user uwrite with password 'yyy'
+create user uadmin with password 'zzz' WITH ALL PRIVILEGES
+grant read on raspi to uread
+grant write on raspi to uwrite
+
+===Using InfluxDB in Grafana
+https://grafana.com/docs/features/datasources/influxdb/
