@@ -1,3 +1,5 @@
-InfluxUploader.ini
 __pycache__
+.vstags
+
+InfluxUploader.ini
 raspi-cpu-loadavg.sh
