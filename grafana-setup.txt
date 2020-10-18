@@ -24,13 +24,19 @@ see https://grafana.com/docs/grafana/latest/datasources/influxdb/
 
 Settings in
 /etc/grafana/grafana.ini
-
 [auth.anonymous]
 # enable anonymous access
 enabled = true
-
 # specify organization name that should be used for unauthenticated users
-org_name = Genglerstr25
-
+org_name = MyOrganization
 # specify role for unauthenticated users
 ;org_role = Viewer
+
+
+
+Start Grafana by running:
+sudo service grafana-server start
+
+Autostart at boot time
+sudo systemctl enable grafana-server.service
+sudo update-rc.d grafana-server defaults
