@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 10,
-  "iteration": 1602953499885,
+  "iteration": 1603004764822,
   "links": [],
   "panels": [
     {
@@ -34,6 +34,7 @@
         "y": 0
       },
       "id": 2,
+      "interval": "15m",
       "legend": {
         "avg": false,
         "current": false,
@@ -46,7 +47,7 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "connected",
+      "nullPointMode": "null",
       "options": {},
       "percentage": false,
       "pointradius": 2,
@@ -55,7 +56,7 @@
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
-      "steppedLine": true,
+      "steppedLine": false,
       "targets": [
         {
           "alias": "Moisture",
@@ -165,6 +166,7 @@
         "y": 9
       },
       "id": 5,
+      "interval": "15m",
       "legend": {
         "avg": false,
         "current": false,
@@ -177,7 +179,7 @@
       "lines": true,
       "linewidth": 2,
       "links": [],
-      "nullPointMode": "connected",
+      "nullPointMode": "null",
       "options": {},
       "percentage": false,
       "pointradius": 2,
@@ -191,7 +193,7 @@
       ],
       "spaceLength": 10,
       "stack": false,
-      "steppedLine": true,
+      "steppedLine": false,
       "targets": [
         {
           "alias": "Temperature",
@@ -302,6 +304,7 @@
         "y": 18
       },
       "id": 6,
+      "interval": "15m",
       "legend": {
         "avg": false,
         "current": false,
@@ -314,7 +317,7 @@
       "lines": true,
       "linewidth": 2,
       "links": [],
-      "nullPointMode": "connected",
+      "nullPointMode": "null",
       "options": {},
       "percentage": false,
       "pointradius": 2,
@@ -323,7 +326,7 @@
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
-      "steppedLine": true,
+      "steppedLine": false,
       "targets": [
         {
           "alias": "Light",
@@ -431,6 +434,7 @@
         "y": 27
       },
       "id": 4,
+      "interval": "15m",
       "legend": {
         "avg": false,
         "current": false,
@@ -443,7 +447,7 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "connected",
+      "nullPointMode": "null",
       "options": {},
       "percentage": false,
       "pointradius": 2,
@@ -672,36 +676,24 @@
           "text": "Kaktus",
           "value": "Kaktus"
         },
+        "datasource": "InfluxDB_raspi",
+        "definition": "SHOW TAG VALUES FROM \"mi-flower-care\" WITH KEY =~ //",
         "hide": 0,
         "includeAll": false,
         "label": null,
         "multi": false,
         "name": "Plant",
-        "options": [
-          {
-            "selected": true,
-            "text": "Kaktus",
-            "value": "Kaktus"
-          },
-          {
-            "selected": false,
-            "text": "Hochbeet",
-            "value": "Hochbeet"
-          },
-          {
-            "selected": false,
-            "text": "Ranke",
-            "value": "Ranke"
-          },
-          {
-            "selected": false,
-            "text": "Rasen",
-            "value": "Rasen"
-          }
-        ],
-        "query": "Kaktus,Hochbeet,Ranke,Rasen",
+        "options": [],
+        "query": "SHOW TAG VALUES FROM \"mi-flower-care\" WITH KEY =~ //",
+        "refresh": 1,
+        "regex": "",
         "skipUrlSync": false,
-        "type": "custom"
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       }
     ]
   },
@@ -737,5 +729,5 @@
   "timezone": "",
   "title": "MI Flower Care",
   "uid": "5wNyR5kRk",
-  "version": 19
+  "version": 20
 }
