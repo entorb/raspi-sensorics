@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 11,
-  "iteration": 1602949722108,
+  "iteration": 1603004655582,
   "links": [],
   "panels": [
     {
@@ -35,7 +35,7 @@
         "y": 0
       },
       "id": 2,
-      "interval": "",
+      "interval": "1m",
       "legend": {
         "avg": false,
         "current": false,
@@ -48,7 +48,7 @@
       "lines": true,
       "linewidth": 2,
       "links": [],
-      "nullPointMode": "connected",
+      "nullPointMode": "null",
       "options": {},
       "percentage": false,
       "pointradius": 2,
@@ -57,7 +57,7 @@
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
-      "steppedLine": true,
+      "steppedLine": false,
       "targets": [
         {
           "alias": "Temperature",
@@ -162,7 +162,7 @@
         "y": 9
       },
       "id": 3,
-      "interval": "",
+      "interval": "1m",
       "legend": {
         "avg": false,
         "current": false,
@@ -175,7 +175,7 @@
       "lines": true,
       "linewidth": 2,
       "links": [],
-      "nullPointMode": "connected",
+      "nullPointMode": "null",
       "options": {},
       "percentage": false,
       "pointradius": 2,
@@ -184,7 +184,7 @@
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
-      "steppedLine": true,
+      "steppedLine": false,
       "targets": [
         {
           "alias": "Humidity",
@@ -263,7 +263,7 @@
           "logBase": 1,
           "max": null,
           "min": null,
-          "show": true
+          "show": false
         }
       ],
       "yaxis": {
@@ -289,7 +289,7 @@
         "y": 9
       },
       "id": 4,
-      "interval": "",
+      "interval": "1m",
       "legend": {
         "avg": false,
         "current": false,
@@ -302,7 +302,7 @@
       "lines": true,
       "linewidth": 2,
       "links": [],
-      "nullPointMode": "connected",
+      "nullPointMode": "null",
       "options": {},
       "percentage": false,
       "pointradius": 2,
@@ -311,7 +311,7 @@
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
-      "steppedLine": true,
+      "steppedLine": false,
       "targets": [
         {
           "alias": "Pressure",
@@ -408,24 +408,28 @@
       {
         "allValue": null,
         "current": {
+          "tags": [],
           "text": "Schlafzimmer",
           "value": "Schlafzimmer"
         },
+        "datasource": "InfluxDB_raspi",
+        "definition": "SHOW TAG VALUES FROM bme280 WITH KEY =~ //",
         "hide": 0,
         "includeAll": false,
         "label": null,
         "multi": false,
         "name": "Room",
-        "options": [
-          {
-            "selected": true,
-            "text": "Schlafzimmer",
-            "value": "Schlafzimmer"
-          }
-        ],
-        "query": "Schlafzimmer",
+        "options": [],
+        "query": "SHOW TAG VALUES FROM bme280 WITH KEY =~ //",
+        "refresh": 1,
+        "regex": "",
         "skipUrlSync": false,
-        "type": "custom"
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       }
     ]
   },
@@ -461,5 +465,5 @@
   "timezone": "",
   "title": "Raumklima",
   "uid": "vC4lOqRgz",
-  "version": 8
+  "version": 10
 }
