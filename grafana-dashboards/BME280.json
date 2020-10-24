@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 11,
-  "iteration": 1603004655582,
+  "iteration": 1603578627765,
   "links": [],
   "panels": [
     {
@@ -27,13 +27,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "InfluxDB_raspi",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
-        "h": 9,
-        "w": 24,
+        "h": 8,
+        "w": 12,
         "x": 0,
         "y": 0
       },
+      "hiddenSeries": false,
       "id": 2,
       "interval": "1m",
       "legend": {
@@ -49,8 +57,11 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.2.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -154,13 +165,21 @@
       "dashes": false,
       "datasource": "InfluxDB_raspi",
       "decimals": 8,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 9
+        "y": 8
       },
+      "hiddenSeries": false,
       "id": 3,
       "interval": "1m",
       "legend": {
@@ -176,8 +195,11 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.2.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -281,13 +303,21 @@
       "dashes": false,
       "datasource": "InfluxDB_raspi",
       "decimals": 8,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
-        "x": 12,
-        "y": 9
+        "x": 0,
+        "y": 17
       },
+      "hiddenSeries": false,
       "id": 4,
       "interval": "1m",
       "legend": {
@@ -303,8 +333,11 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.2.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -400,7 +433,7 @@
     }
   ],
   "refresh": "1m",
-  "schemaVersion": 18,
+  "schemaVersion": 26,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -408,7 +441,7 @@
       {
         "allValue": null,
         "current": {
-          "tags": [],
+          "selected": false,
           "text": "Schlafzimmer",
           "value": "Schlafzimmer"
         },
@@ -434,7 +467,7 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {
@@ -465,5 +498,5 @@
   "timezone": "",
   "title": "Raumklima",
   "uid": "vC4lOqRgz",
-  "version": 10
+  "version": 12
 }

@@ -2,6 +2,8 @@
 
 # reads temperature, pressure, humidity from bme280 sensor, connected via cable to raspi GPIO using i2c protocol
 
+# test I2C via sudo i2cdetect -y 1
+
 from Bme280 import Bme280
 from InfluxUploader import InfluxUploader
 
