@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 12,
-  "iteration": 1603000712217,
+  "iteration": 1603578538211,
   "links": [],
   "panels": [
     {
@@ -30,7 +30,14 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
+      "datasource": null,
       "decimals": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "dateTimeAsIso",
       "gauge": {
         "maxValue": 100,
@@ -62,7 +69,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "pluginVersion": "6.2.5",
       "postfix": "",
       "postfixFontSize": "50%",
@@ -138,7 +144,7 @@
       "thresholds": ".4,.6",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Panel Title",
+      "title": "Current Status of $hostname",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -157,6 +163,13 @@
     },
     {
       "columns": [],
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fontSize": "100%",
       "gridPos": {
         "h": 23,
@@ -167,7 +180,6 @@
       "id": 7,
       "interval": "5m",
       "links": [],
-      "options": {},
       "pageSize": null,
       "scroll": true,
       "showHeader": true,
@@ -178,12 +190,14 @@
       "styles": [
         {
           "alias": "Time",
+          "align": "auto",
           "dateFormat": "DD.MM.YY HH:mm",
           "pattern": "Time",
           "type": "date"
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -201,6 +215,7 @@
         },
         {
           "alias": "Hostname",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -286,7 +301,7 @@
       "timeShift": null,
       "title": "List",
       "transform": "table",
-      "type": "table"
+      "type": "table-old"
     },
     {
       "aliasColors": {
@@ -296,13 +311,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "InfluxDB_raspi",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 18,
         "x": 0,
         "y": 2
       },
+      "hiddenSeries": false,
       "id": 2,
       "interval": "5m",
       "legend": {
@@ -318,8 +341,11 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.2.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -465,13 +491,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "InfluxDB_raspi",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 12,
         "w": 18,
         "x": 0,
         "y": 11
       },
+      "hiddenSeries": false,
       "id": 3,
       "interval": "5m",
       "legend": {
@@ -488,8 +522,11 @@
       "links": [],
       "maxPerRow": 4,
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.2.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -582,7 +619,7 @@
     }
   ],
   "refresh": "1m",
-  "schemaVersion": 18,
+  "schemaVersion": 26,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -590,9 +627,9 @@
       {
         "allValue": null,
         "current": {
-          "tags": [],
-          "text": "T-WIN",
-          "value": "T-WIN"
+          "selected": false,
+          "text": "KM2-Resol",
+          "value": "KM2-Resol"
         },
         "datasource": "InfluxDB_raspi",
         "definition": "show tag values from \"FritzHosts\" WITH KEY =~ //",
@@ -647,5 +684,5 @@
   "timezone": "",
   "title": "FritzHosts",
   "uid": "6ru1rqRgz",
-  "version": 7
+  "version": 8
 }
