@@ -1,5 +1,6 @@
 __pycache__
 .vstags
+manuals-wiring
 
 InfluxUploader.ini
 raspi-cpu-loadavg.sh
