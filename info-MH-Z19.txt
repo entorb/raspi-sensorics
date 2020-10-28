@@ -1,0 +1,20 @@
+MH-Z19 howto
+https://pypi.org/project/mh-z19/
+
+Wiring
+5V on RPi and Vin on mh-z19
+GND(0v) on RPi and GND on mh-z19
+TxD and RxD are connected to cross between RPi and mh-z18
+
+sudo python3 -m mh_z19
+
+
+MH>-Z19 not woring:
+On the RPi-3, the bluetooth device gets the UART and the serial port presented is a less capable (buggy) interface that doesn't work for the MH-Z CO2 sensors.
+
+See this discussion: https://www.raspberrypi.org/forums/viewtopic.php?t=142112
+
+I usually just use the disable-bt overlay. Or I use a USB serial adaptor.
+
+How to use without root permission.
+https://github.com/UedaTakeyuki/mh-z19/wiki/How-to-use-in-your-program.
