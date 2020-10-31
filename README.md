@@ -1,5 +1,5 @@
 # raspi-sensorics
-Code for reading various sources and sensors attached to a Raspberry Pi
+Reading various sources and sensors attached to a Raspberry Pi
 
 ## Setup
 * Raspberry Pi 3 Model B
