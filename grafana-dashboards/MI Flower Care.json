@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 10,
-  "iteration": 1603578664464,
+  "iteration": 1605474110575,
   "links": [],
   "panels": [
     {
@@ -731,7 +731,7 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "Kaktus",
           "value": "Kaktus"
         },
