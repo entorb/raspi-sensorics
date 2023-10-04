@@ -87,20 +87,20 @@ try:
         # TM: No, actually it is the current timestamp, not the timestamp related to past counters!   # noqa: E501
         timestamp = int(data["timestamp"])
 
-        my_measurement = "Shelly"
-        d_fields = {
+        my_measurement = "Shelly3"
+        tags = {"room": "Balkon"}
+        fields = {
             "watt_now": watt_now,
             "watt_last": watt_past_minutes[0],
             "kWh_total": kWh_total,
         }
-        d_tags = {"room": "Balkon"}
 
         # current_time = convert_shelly_timestamp_to_influx(timestamp=timestamp)
 
         influx.upload(
             measurement=my_measurement,
-            fields=d_fields,
-            tags=d_tags,
+            fields=fields,
+            tags=tags,
             # datetime=current_time,
         )
 

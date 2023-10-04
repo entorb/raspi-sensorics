@@ -45,22 +45,24 @@ class InfluxUploader:
         tags: dict,
         datetime: str = "",
     ) -> None:
-        """Upload measurement data.
+        """
+        Upload measurement data.
 
-        datetime string, created via datetime modue
+        datetime string, created via datetime module
           dt.strftime("%Y-%m-%dT%H:%M:%SZ")
         """
         json = [
             {
                 "measurement": measurement,
-                "fields": fields,
                 "tags": tags,
+                "fields": fields,
             },
         ]
         if datetime != "":
             # dt.strftime("%Y-%m-%dT%H:%M:%SZ")
             json[0]["time"] = datetime
-            print("addding timestamp")
+            if self.verbose:
+                print("adding timestamp")
 
         if self.verbose:
             print(f"uploading:\n {json}")

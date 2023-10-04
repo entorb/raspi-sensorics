@@ -114,7 +114,8 @@ try:
         # Energy consumption by minute (in Milliwatt-hours) for the last three minutes
         past_minutes = [float(x) for x in data["aenergy"]["by_minute"]]
         # Convert to avg watt per min
-        watt_past_minutes = [x * 60 / 1000 for x in past_minutes]
+        watt_past_minutes = [round(x * 60 / 1000, 1) for x in past_minutes]
+
         # print(watt_now, watt_past_minutes)
 
         # Unix timestamp of the first second of the last minute

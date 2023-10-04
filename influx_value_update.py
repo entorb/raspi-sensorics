@@ -24,26 +24,25 @@ def connect() -> InfluxDBClient:
 
 client = connect()
 
-measurement = "ShellyV1"
+# measurement = "Shelly"
 
 # Query the data you want to modify
 # query = f'SELECT * from {measurement} where "kWh total" > 10'
-query = f'SELECT * from {measurement} where "total" > 1000'
+query = "SELECT kWh_total,watt_last,watt_now,room_1 from Shelly2"
 result = client.query(query)
 
 # Iterate over the query result, modify and overwrite data
 for p1 in result.get_points():
-    tags = {"room": p1["room"]}
+    print(p1["time"])
+    tags = {"room": p1["room_1"]}
     fields = {
-        # "kWh total": p1["kWh total"],  # / 1000,
-        "kWh total": round(p1["total"] / 60 / 1000, 3)
-        # "watt_avg_last_min": p1["watt_avg_last_min"],
-        # "watt_now": p1["watt_now"],
-        # "total": 123.456,
+        "kWh_total": p1["kWh_total"],  # / 1000,
+        "watt_last": p1["watt_last"],
+        "watt_now": p1["watt_now"],
     }
     p2 = [
         {
-            "measurement": measurement,
+            "measurement": "Shelly3",
             "fields": fields,
             "tags": tags,
             "time": p1["time"],
