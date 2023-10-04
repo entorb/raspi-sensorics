@@ -8,10 +8,11 @@ started by /etc/systemd/system/mqtt_influx.service
 
 # pip install paho-mqtt
 import json
+
 import paho.mqtt.client as mqtt
 
-from mqtt_credentials import hostname, port, username, password
 from InfluxUploader import InfluxUploader
+from mqtt_credentials import hostname, password, port, username
 
 # Create an MQTT client instance
 mqtt_client = mqtt.Client("raspi3-client")
