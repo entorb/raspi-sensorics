@@ -7,3 +7,4 @@ InfluxUploader.ini
 raspi-cpu-loadavg.sh
 fritzbox.ini
 shelly_credentials.py
+mqtt_credentials.py

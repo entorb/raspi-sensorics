@@ -1,0 +1,12 @@
+[Unit]
+Description=My MQTT to InfluxDB Service
+
+[Service]
+ExecStart=/usr/bin/env python3.9 /home/pi/influx-collectors/mqtt.py
+WorkingDirectory=/home/pi/influx-collectors
+Restart=always
+User=pi
+Group=pi
+
+[Install]
+WantedBy=multi-user.target
