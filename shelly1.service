@@ -1,0 +1,12 @@
+[Unit]
+Description=My Shelly Plug1 PV APIv1 Download Service
+
+[Service]
+ExecStart=/usr/bin/env python3.9 /home/pi/influx-collectors/shelly_api_v1.py
+WorkingDirectory=/home/pi/influx-collectors
+Restart=always
+User=pi
+Group=pi
+
+[Install]
+WantedBy=multi-user.target

@@ -5,6 +5,8 @@ Access API gen1 of Shelly device (Plug S) using basic authentication.
 
 see https://shelly-api-docs.shelly.cloud/gen1/#shelly-plug-plugs-settings
 based on https://github.com/entorb/shelly-api
+
+started via /etc/systemd/system/shelly1.service
 """
 
 import datetime as dt
