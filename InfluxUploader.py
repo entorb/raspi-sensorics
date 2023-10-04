@@ -1,7 +1,12 @@
 #!/usr/bin/python3
 
-# uploads data into InfluxDB
-# read credentials from .ini file
+"""
+InfluxDB Uploader.
+
+upload data into InfluxDB
+read credentials from .ini file
+"""
+
 
 # install via
 # pip3 install influxdb-client
@@ -10,39 +15,43 @@ from influxdb import InfluxDBClient
 from configparser import ConfigParser
 
 
-class InfluxUploader():
-    def __init__(self, verbose: bool = False):
+class InfluxUploader:
+    """InfluxUploader Class."""
+
+    def __init__(self, verbose: bool = False) -> None:  # noqa: D107
         self.verbose = verbose
         if self.verbose:
             print("InfluxUploader: verbose = True")
         self.config = ConfigParser(interpolation=None)
         # interpolation=None -> treats % in values as char % instead of interpreting it
-        self.config.read(
-            '/home/pi/influx-collectors/InfluxUploader.ini', encoding='utf-8')
+        self.config.read("InfluxUploader.ini", encoding="utf-8")
         self.con = self.connect()
 
     def connect(self) -> InfluxDBClient:
+        """Connect to DB."""
         client = InfluxDBClient(
-            host=self.config.get('Connection', 'host'),
-            port=self.config.getint('Connection', 'port'),
-            username=self.config.get('Connection', 'username'),
-            password=self.config.get('Connection', 'password'))
-        client.switch_database(self.config.get('Connection', 'database'))
+            host=self.config.get("Connection", "host"),
+            port=self.config.getint("Connection", "port"),
+            username=self.config.get("Connection", "username"),
+            password=self.config.get("Connection", "password"),
+        )
+        client.switch_database(self.config.get("Connection", "database"))
         return client
 
-    def upload(self, measurement: str, fields: dict, tags: dict = {}):
-        json = [
-            {
-                "measurement": measurement,
-                "fields": fields,
-                "tags": tags
-            }]
+    def upload(
+        self,
+        measurement: str,
+        fields: dict,
+        tags: dict,
+    ) -> None:
+        """Upload measurement data."""
+        json = [{"measurement": measurement, "fields": fields, "tags": tags}]
 
         if self.verbose:
             print(f"uploading:\n {json}")
 
         # time_precision is important for performance
-        if self.con.write_points(json, time_precision="s") == True:
+        if self.con.write_points(json, time_precision="s") is True:
             if self.verbose:
                 print("data inserted into InfluxDB")
         else:
@@ -54,12 +63,14 @@ class InfluxUploader():
     #     result = self.con.query(query)
     #     print("Result: {0}".format(result))
 
-    def test(self):
+    def test(self) -> None:
+        """Test access by reading list of databases."""
         print("list of databases:")
         print(self.con.get_list_database())
 
 
-def test():
+def test() -> None:
+    """Test."""
     influx_uploader = InfluxUploader(verbose=True)
     influx_uploader.test()
 

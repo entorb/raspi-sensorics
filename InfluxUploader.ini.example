@@ -1,6 +1,0 @@
-[Connection]
-host = localhost
-port = 8086
-username = uwrite
-password = ***
-database = raspi

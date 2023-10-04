@@ -1,23 +1,27 @@
 #!/usr/bin/python3
 
+"""Read out Smartfox via HTML."""
+
 import urllib.request
 
 from InfluxUploader import InfluxUploader
 
+ip = "192.168.178.52"
+
 # fetch from http
-fp = urllib.request.urlopen("http://192.168.178.52/v_energies.html")
+fp = urllib.request.urlopen(f"http://{ip}/v_energies.html")  # noqa: S310
 s_bytes = fp.read()
 s = s_bytes.decode("utf8")
 fp.close()
 
 # extract only table of energies
-s = s[s.find("<b>ENERGIES</b><br>"):len(s)]
-s = s[s.find("<table>")+7:s.find("</table>")]
+s = s[s.find("<b>ENERGIES</b><br>") : len(s)]
+s = s[s.find("<table>") + 7 : s.find("</table>")]
 # replace html table tags
 s = s.replace("</td></tr>", "\n")
 s = s.replace("<tr><td>", "")
 s = s.replace("</td><td>", "\t")
-s = s[0:len(s)-1]  # remove last linebreak
+s = s[0 : len(s) - 1]  # remove last linebreak
 
 # split string s by spaces, use (s.split(",")) to split on "," etc
 E = s.split("\n")
@@ -33,39 +37,42 @@ for idx, line in enumerate(E):
 # print(E[1][0])
 
 
-fp = urllib.request.urlopen("http://192.168.178.52/v_phases.html")
+fp = urllib.request.urlopen(f"http://{ip}//v_phases.html")  # noqa: S310
 s_bytes = fp.read()
 s = s_bytes.decode("utf8")
 fp.close()
 
 # extract only table of phases
-s = s[s.find("<b>PHASES</b><br>"):len(s)]
-s = s[s.find(
-    "<table><tr><td></td><td>A</td><td>B</td><td>C</td><td></td></tr>"):len(s)]
-s = s[s.find("<table>")+7:s.find("</table>")]
+s = s[s.find("<b>PHASES</b><br>") : len(s)]
+s = s[
+    s.find(
+        "<table><tr><td></td><td>A</td><td>B</td><td>C</td><td></td></tr>",
+    ) : len(s)
+]
+s = s[s.find("<table>") + 7 : s.find("</table>")]
 
-s = s[s.find("<td>P</td><td>")+14:s.find("</td><td>W</td>")]
+s = s[s.find("<td>P</td><td>") + 14 : s.find("</td><td>W</td>")]
 s = s.replace("</td><td>", "\t")
 
-#P = s.split("\t")
+# P = s.split("\t")
 P = [float(x) for x in s.split("\t")]
 # print (P)
 
 
 # fetch from http
-fp = urllib.request.urlopen("http://192.168.178.52/v_cc.html")
+fp = urllib.request.urlopen(f"http://{ip}//v_cc.html")  # noqa: S310
 s_bytes = fp.read()
 s = s_bytes.decode("utf8")
 fp.close()
 
 # extract only table of energies
-s = s[s.find("<b>CC</b><br>"):len(s)]
-s = s[s.find("<table>")+7:s.find("</table>")]
+s = s[s.find("<b>CC</b><br>") : len(s)]
+s = s[s.find("<table>") + 7 : s.find("</table>")]
 # replace html table tags
 s = s.replace("</td></tr>", "\n")
 s = s.replace("<tr><td>", "")
 s = s.replace("</td><td>", "\t")
-s = s[0:len(s)-1]  # remove last linebreak
+s = s[0 : len(s) - 1]  # remove last linebreak
 
 # split string s by spaces, use (s.split(",")) to split on "," etc
 CC = s.split("\n")
@@ -91,11 +98,11 @@ fields = {
     "Phase A": P[0],
     "Phase B": P[1],
     "Phase C": P[2],
-    "CC_"+CC[0][0]: CC[0][1],
-    "CC_"+CC[1][0]: CC[1][1],
-    "CC_"+CC[2][0]: CC[2][1]
+    "CC_" + CC[0][0]: CC[0][1],
+    "CC_" + CC[1][0]: CC[1][1],
+    "CC_" + CC[2][0]: CC[2][1],
 }
 
 
 influx = InfluxUploader(verbose=False)
-influx.upload(measurement='smartfox', fields=fields, tags={})
+influx.upload(measurement="smartfox", fields=fields, tags={})

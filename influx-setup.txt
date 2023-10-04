@@ -12,7 +12,7 @@ Setup of /etc/influxdb/influxdb.conf
 
 
 
-start via 
+start via
 influx -precision rfc3339
 or
 influx

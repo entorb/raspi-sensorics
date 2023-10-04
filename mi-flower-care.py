@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 
-"""TM: based on 
+"""TM: based on
 Demo file showing how to use the miflora library.
 from https://github.com/open-homeautomation/miflora
 
@@ -23,7 +23,7 @@ sudo apt-get install python3-pip
 sudo pip3 install bluepy
 git clone https://github.com/open-homeautomation/miflora.git
 cd miflora/
-. ./build.sh 
+. ./build.sh
 python3 setup.py build
 sudo python3 setup.py install
 
@@ -32,7 +32,7 @@ python3 demo.py poll C4:7C:8D:6A:E6:B6
  Getting data from Mi Flora
  FW: 3.2.1
  Name: Flower care
- Temperature: 28.8 
+ Temperature: 28.8
  Moisture: 8
  Light: 90
  Conductivity: 0
@@ -49,16 +49,26 @@ from InfluxUploader import InfluxUploader
 
 from btlewrap import available_backends, BluepyBackend, GatttoolBackend, PygattBackend
 
-from miflora.miflora_poller import MiFloraPoller, \
-    MI_CONDUCTIVITY, MI_MOISTURE, MI_LIGHT, MI_TEMPERATURE, MI_BATTERY
+from miflora.miflora_poller import (
+    MiFloraPoller,
+    MI_CONDUCTIVITY,
+    MI_MOISTURE,
+    MI_LIGHT,
+    MI_TEMPERATURE,
+    MI_BATTERY,
+)
 from miflora import miflora_scanner
 
 
-def valid_miflora_mac(mac, pat=re.compile(r"C4:7C:8D:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}")):
+def valid_miflora_mac(
+    mac,
+    pat=re.compile(r"C4:7C:8D:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"),
+):
     """Check for valid mac adresses."""
     if not pat.match(mac.upper()):
         raise argparse.ArgumentTypeError(
-            'The MAC address "{}" seems to be in the wrong format'.format(mac))
+            f'The MAC address "{mac}" seems to be in the wrong format',
+        )
     return mac
 
 
@@ -67,7 +77,7 @@ def poll(args):
     backend = _get_backend(args)
 
     macs = {}
-    macs[1] = 'C4:7C:8D:6A:E6:B6'
+    macs[1] = "C4:7C:8D:6A:E6:B6"
 
     mac = macs[args.sensor]
 
@@ -106,30 +116,30 @@ def poll(args):
 def scan(args):
     """Scan for sensors."""
     backend = _get_backend(args)
-    print('Scanning for 10 seconds...')
+    print("Scanning for 10 seconds...")
     devices = miflora_scanner.scan(backend, 10)
-    print('Found {} devices:'.format(len(devices)))
+    print(f"Found {len(devices)} devices:")
     for device in devices:
-        print('  {}'.format(device))
+        print(f"  {device}")
 
 
 def _get_backend(args):
     """Extract the backend class from the command line arguments."""
-    if args.backend == 'gatttool':
+    if args.backend == "gatttool":
         backend = GatttoolBackend
-    elif args.backend == 'bluepy':
+    elif args.backend == "bluepy":
         backend = BluepyBackend
-    elif args.backend == 'pygatt':
+    elif args.backend == "pygatt":
         backend = PygattBackend
     else:
-        raise Exception('unknown backend: {}'.format(args.backend))
+        raise Exception(f"unknown backend: {args.backend}")
     return backend
 
 
 def list_backends(_):
     """List all available backends."""
     backends = [b.__name__ for b in available_backends()]
-    print('\n'.join(backends))
+    print("\n".join(backends))
 
 
 def main():
@@ -139,26 +149,45 @@ def main():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '--backend', choices=['gatttool', 'bluepy', 'pygatt'], default='gatttool')
-    parser.add_argument('-v', '--verbose', action='store_const', const=True)
-    subparsers = parser.add_subparsers(help='sub-command help', )
+        "--backend",
+        choices=["gatttool", "bluepy", "pygatt"],
+        default="gatttool",
+    )
+    parser.add_argument("-v", "--verbose", action="store_const", const=True)
+    subparsers = parser.add_subparsers(help="sub-command help")
 
     # the poll parameter is defined here
-    parser_poll = subparsers.add_parser('poll', help='poll data from a sensor')
+    parser_poll = subparsers.add_parser("poll", help="poll data from a sensor")
     # parser_poll.add_argument('--mac', type=valid_miflora_mac, default='C4:7C:8D:6A:E6:B6')
     # poll parameter requires arguments: sensor (int)
     parser_poll.add_argument(
-        'sensor', choices=[1], type=int, default=1, help='sensor no')
+        "sensor",
+        choices=[1],
+        type=int,
+        default=1,
+        help="sensor no",
+    )
     # poll parameter requires arguments: plant
-    parser_poll.add_argument('plant', choices=[
-                             'Ranke', 'Rasen', 'Hochbeet', 'Kaktus'], default='Rasen', help='name of plant')
+    parser_poll.add_argument(
+        "plant",
+        choices=[
+            "Ranke",
+            "Rasen",
+            "Hochbeet",
+            "Kaktus",
+        ],
+        default="Rasen",
+        help="name of plant",
+    )
     parser_poll.set_defaults(func=poll)
 
-    parser_scan = subparsers.add_parser('scan', help='scan for devices')
+    parser_scan = subparsers.add_parser("scan", help="scan for devices")
     parser_scan.set_defaults(func=scan)
 
     parser_scan = subparsers.add_parser(
-        'backends', help='list the available backends')
+        "backends",
+        help="list the available backends",
+    )
     parser_scan.set_defaults(func=list_backends)
 
     args = parser.parse_args()
@@ -174,5 +203,5 @@ def main():
     args.func(args)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
