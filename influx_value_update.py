@@ -3,8 +3,9 @@
 Update Fields or Tags in an InfluxDB Measurement.
 """
 
-from influxdb import InfluxDBClient
 from configparser import ConfigParser
+
+from influxdb import InfluxDBClient
 
 config = ConfigParser(interpolation=None)
 config.read("InfluxUploader.ini", encoding="utf-8")

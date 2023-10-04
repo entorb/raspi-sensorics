@@ -5,8 +5,9 @@
 # installation
 # pip3 install fritzconnection
 
-from InfluxUploader import InfluxUploader
 from fritzconnection.lib.fritzhosts import FritzHosts
+
+from InfluxUploader import InfluxUploader
 
 influx = InfluxUploader(verbose=False)
 my_measurement = "FritzHosts"

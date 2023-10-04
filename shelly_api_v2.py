@@ -6,13 +6,15 @@ Access API gen2 of Shelly device (Plus Plug S) using digest auth.
 see https://shelly-api-docs.shelly.cloud/gen2/General/Authentication
 based on https://github.com/entorb/shelly-api
 """
-import random
-import json
-
 import hashlib
+import json
+import random
+
 import requests
 
-from shelly_credentials import shelly2_ip as shelly_ip, username, password
+from shelly_credentials import password
+from shelly_credentials import shelly2_ip as shelly_ip
+from shelly_credentials import username
 
 # public endpoint with no auth required
 # api_url = f"http://{shelly_ip}/shelly"

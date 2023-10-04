@@ -43,8 +43,7 @@ repos:
       - id: detect-private-key
       # conflict with black below
       # - id: double-quote-string-fixer
-      # not: since it conflicts with python gen. json files
-      # - id: end-of-file-fixer
+      - id: end-of-file-fixer
       - id: file-contents-sorter
       - id: fix-byte-order-marker
       - id: fix-encoding-pragma
@@ -89,10 +88,11 @@ repos:
     hooks:
       - id: black
 
-  # - repo: https://github.com/PyCQA/isort
-  #   rev: 5.12.0
-  #   hooks:
-  #     - id: isort
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        args: ["--profile", "black", "--filter-files"]
 
   # no, black is enough
   # - repo: https://github.com/pre-commit/mirrors-autopep8

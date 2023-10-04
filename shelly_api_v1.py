@@ -7,41 +7,34 @@ see https://shelly-api-docs.shelly.cloud/gen1/#shelly-plug-plugs-settings
 based on https://github.com/entorb/shelly-api
 """
 
+import datetime as dt
 import json
-import requests
+import time
 from zoneinfo import ZoneInfo
 
-from shelly_credentials import password, shelly1_ip as shelly_ip, username
+import requests
 
 from InfluxUploader import InfluxUploader
-import datetime as dt
+from shelly_credentials import password
+from shelly_credentials import shelly1_ip as shelly_ip
+from shelly_credentials import username
 
 TZ_UTC = dt.timezone.utc
 TZ_DE = ZoneInfo("Europe/Berlin")
 
 influx = InfluxUploader(verbose=False)
 
-
-# public endpoint with no auth required
-# url = f"http://{shelly_ip}/shelly"
-
-# other endpoints require basic auth, if auth is configured in web interfaces
-# status endpoint, shows much data, e.g. temperature
-# see https://shelly-api-docs.shelly.cloud/gen1/#shelly-plug-plugs-meter-0
-# url = f"http://{shelly1_ip}/status"
-
 # read meter data
 # see https://shelly-api-docs.shelly.cloud/gen1/#shelly-plug-plugs-status
-url = f"http://{shelly_ip}/meter/0"
+shelly_url = f"http://{shelly_ip}/meter/0"
+
+# influx data setup
+influx_measurement = "Shelly3"
+influx_tags = {"room": "Balkon"}
 
 # creating session with http basic auth
 session = requests.Session()
 session.auth = (username, password)
-
-
-# def write_data_to_file(data: dict) -> None:
-#     with open("data.json", mode="w", encoding="utf-8", newline="\n") as fh:
-#         json.dump(data, fh, ensure_ascii=False, sort_keys=False, indent=2)
 
 
 def convert_shelly_timestamp_to_influx(timestamp: int) -> str:
@@ -64,50 +57,63 @@ def convert_shelly_timestamp_to_influx(timestamp: int) -> str:
     return current_time
 
 
-try:
-    response = session.get(url, timeout=3)
+def fetch_data() -> None:
+    try:
+        response = session.get(shelly_url, timeout=3)
 
-    if response.status_code == 200:
-        # print(response.text)
-        # convert response to dict
-        data = json.loads(response.text)
-        # print(data)
-        # write_data_to_file(data)
+        if response.status_code == 200:
+            # convert response to dict
+            data = json.loads(response.text)
 
-        # Current real AC power being drawn, in Watts
-        watt_now = float(data["power"])
-        # Total energy consumed by the attached electrical appliance in Watt-minute
-        total = float(data["total"])
-        kWh_total = round(total / 60 / 1000, 3)
-        # print(kWh_total)
-        # Energy counter value for the last 3 round minutes in Watt-minute
-        watt_past_minutes = [float(x) for x in data["counters"]]
-        # print(watt_past_minutes)
-        # Timestamp of the last energy counter value, with the applied timezone
-        # TM: No, actually it is the current timestamp, not the timestamp related to past counters!   # noqa: E501
-        timestamp = int(data["timestamp"])
+            # extract and convert relevant data
 
-        my_measurement = "Shelly3"
-        tags = {"room": "Balkon"}
-        fields = {
-            "watt_now": watt_now,
-            "watt_last": watt_past_minutes[0],
-            "kWh_total": kWh_total,
-        }
+            # Current real AC power being drawn, in Watts
+            watt_now = float(data["power"])
+            # Total energy consumed by the attached electrical appliance in Watt-minute
+            total = float(data["total"])
+            kWh_total = round(total / 60 / 1000, 3)
+            # print(kWh_total)
+            # Energy counter value for the last 3 round minutes in Watt-minute
+            watt_past_minutes = [float(x) for x in data["counters"]]
+            # print(watt_past_minutes)
+            # Timestamp of the last energy counter value, with the applied timezone
+            # TM: No, actually it is the current timestamp, not the timestamp related to past counters!   # noqa: E501
+            # timestamp = int(data["timestamp"])
+            # my_datetime = convert_shelly_timestamp_to_influx(timestamp=timestamp)
 
-        # current_time = convert_shelly_timestamp_to_influx(timestamp=timestamp)
+            influx.upload(
+                measurement=influx_measurement,
+                tags=influx_tags,
+                fields={
+                    "watt_now": watt_now,
+                    "watt_last": watt_past_minutes[0],
+                    "kWh_total": kWh_total,
+                },
+                # datetime=my_datetime,
+            )
 
-        influx.upload(
-            measurement=my_measurement,
-            fields=fields,
-            tags=tags,
-            # datetime=current_time,
-        )
+        else:
+            print(
+                f"Failed to access the API. Status code: {response.status_code}, text: {response.text}",  # noqa: E501
+            )
 
-    else:
-        print(
-            f"Failed to access the API. Status code: {response.status_code}, text: {response.text}",  # noqa: E501
-        )
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred: {str(e)}")
 
-except requests.exceptions.RequestException as e:
-    print(f"An error occurred: {str(e)}")
+
+def sleep_till_next_minute(offset: int = 3) -> None:
+    """
+    Sleep till next minutes plus 'offset' seconds.
+    """
+    current_time = dt.datetime.now()
+    next_minute = (current_time + dt.timedelta(minutes=1)).replace(
+        second=0,
+        microsecond=0,
+    )
+    time_until_next_minute = (next_minute - current_time).total_seconds()
+    time.sleep(time_until_next_minute + offset)
+
+
+while True:
+    sleep_till_next_minute(offset=3)
+    fetch_data()

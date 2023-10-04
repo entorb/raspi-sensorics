@@ -11,8 +11,9 @@ read credentials from .ini file
 # install via
 # pip3 install influxdb-client
 
-from influxdb import InfluxDBClient
 from configparser import ConfigParser
+
+from influxdb import InfluxDBClient
 
 
 class InfluxUploader:
