@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3.10
 
 """
 InfluxDB Uploader.
@@ -43,9 +43,24 @@ class InfluxUploader:
         measurement: str,
         fields: dict,
         tags: dict,
+        datetime: str = "",
     ) -> None:
-        """Upload measurement data."""
-        json = [{"measurement": measurement, "fields": fields, "tags": tags}]
+        """Upload measurement data.
+
+        datetime string, created via datetime modue
+          dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+        """
+        json = [
+            {
+                "measurement": measurement,
+                "fields": fields,
+                "tags": tags,
+            },
+        ]
+        if datetime != "":
+            # dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+            json[0]["time"] = datetime
+            print("addding timestamp")
 
         if self.verbose:
             print(f"uploading:\n {json}")
