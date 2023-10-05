@@ -14,4 +14,3 @@ mv $TARGET/grafana.1 $TARGET/grafana.2
 mv $TARGET/grafana.0 $TARGET/grafana.1
 
 sudo cp -al $SOURCE $TARGET/grafana.0
-

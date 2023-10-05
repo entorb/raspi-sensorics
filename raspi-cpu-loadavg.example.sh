@@ -12,4 +12,3 @@ echo $VALUE
 
 # 	--data-urlencode "u=uwrite" \
 #	--data-urlencode "p=fuK1EwDGQIQWlGdhzl4w" \
-

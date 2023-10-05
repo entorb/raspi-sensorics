@@ -32,4 +32,3 @@ TAR=/tmp/raspbian-grafana.tgz
 sudo rm -f $TAR
 sudo tar cfz $TAR *
 scp $TAR torben@192.168.178.112:/media/data/sicher/raspi/raspbian/
-

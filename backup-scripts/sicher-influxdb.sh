@@ -13,4 +13,3 @@ mv $TARGET/influxdb.1 $TARGET/influxdb.2
 mv $TARGET/influxdb.0 $TARGET/influxdb.1
 
 influxd backup -portable $TARGET/influxdb.0
-
