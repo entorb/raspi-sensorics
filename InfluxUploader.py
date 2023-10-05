@@ -7,7 +7,6 @@ upload data into InfluxDB
 read credentials from .ini file
 """
 
-
 # install via
 # pip3 install influxdb-client
 
@@ -42,8 +41,8 @@ class InfluxUploader:
     def upload(
         self,
         measurement: str,
-        fields: dict,
-        tags: dict,
+        fields: dict[str, int | float],
+        tags: dict[str, str],
         datetime: str = "",
     ) -> None:
         """

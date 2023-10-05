@@ -30,7 +30,7 @@ influx = InfluxUploader(verbose=False)
 # see https://shelly-api-docs.shelly.cloud/gen1/#shelly-plug-plugs-status
 shelly_url = f"http://{shelly_ip}/meter/0"
 
-# influx data setup
+# Influx data setup
 influx_measurement = "Shelly3"
 influx_tags = {"room": "Balkon"}
 
@@ -40,26 +40,31 @@ session.auth = (username, password)
 
 
 def convert_shelly_timestamp_to_influx(timestamp: int) -> str:
-    """Convert Shelly timestamp to Influx datetime string in UTC."""
+    """
+    Convert Shelly timestamp to Influx datetime string in UTC.
+
+    Seconds are trimmed to last full minute, to compensate for the delay
+    since 'watt_last_minute' was measured.
+    """
     # Shelly seems to be converting it wrong, the timestamp is in UTC
     # converting it back to a datetime gives local time but as UTC
-    # print(timestamp) vs. print(time.time())
+    # compare print(timestamp) vs. print(time.time())
 
     # fixing the timezone
     # add UTC-timezone into to timestamp
     dt1 = dt.datetime.fromtimestamp(timestamp, tz=TZ_UTC)
-    # overwrite by real timezone
-    dt1 = dt1.replace(tzinfo=TZ_DE)
+    # overwrite by real timezone and trim seconds
+    dt1 = dt1.replace(tzinfo=TZ_DE, second=0)
+    # convert to UTC
+    dt1 = dt1.astimezone(TZ_UTC)
 
-    # Convert the datetime object to UTC
-    dt2 = dt1.astimezone(TZ_UTC)
-
-    # Format the UTC datetime to str as required by InfluxDB
-    current_time = dt2.strftime("%Y-%m-%dT%H:%M:%SZ")
+    # format the UTC datetime to str as required by InfluxDB
+    current_time = dt1.strftime("%Y-%m-%dT%H:%M:%SZ")
     return current_time
 
 
 def fetch_data() -> None:
+    """Fetch data from API and upload to InfluxDB."""
     try:
         response = session.get(shelly_url, timeout=3)
 
@@ -68,20 +73,17 @@ def fetch_data() -> None:
             data = json.loads(response.text)
 
             # extract and convert relevant data
-
-            # Current real AC power being drawn, in Watts
+            # api spec: Current real AC power being drawn, in Watts
             watt_now = float(data["power"])
-            # Total energy consumed by the attached electrical appliance in Watt-minute
+            # api spec: Total energy consumed by the attached electrical appliance in Watt-minute  # noqa: E501
             total = float(data["total"])
             kWh_total = round(total / 60 / 1000, 3)
-            # print(kWh_total)
-            # Energy counter value for the last 3 round minutes in Watt-minute
+            # api spec: Energy counter value for the last 3 round minutes in Watt-minute
             watt_past_minutes = [float(x) for x in data["counters"]]
-            # print(watt_past_minutes)
-            # Timestamp of the last energy counter value, with the applied timezone
+            # api spec: Timestamp of the last energy counter value, with the applied timezone  # noqa: E501
             # TM: No, actually it is the current timestamp, not the timestamp related to past counters!   # noqa: E501
-            # timestamp = int(data["timestamp"])
-            # my_datetime = convert_shelly_timestamp_to_influx(timestamp=timestamp)
+            timestamp = int(data["timestamp"])
+            my_datetime = convert_shelly_timestamp_to_influx(timestamp=timestamp)
 
             influx.upload(
                 measurement=influx_measurement,
@@ -91,21 +93,21 @@ def fetch_data() -> None:
                     "watt_last": watt_past_minutes[0],
                     "kWh_total": kWh_total,
                 },
-                # datetime=my_datetime,
+                datetime=my_datetime,
             )
 
         else:
             print(
-                f"Failed to access the API. Status code: {response.status_code}, text: {response.text}",  # noqa: E501
+                f"Error: Failed to access the API. Status code: {response.status_code}, text: {response.text}",  # noqa: E501
             )
 
     except requests.exceptions.RequestException as e:
-        print(f"An error occurred: {str(e)}")
+        print(f"Error: {str(e)}")
 
 
 def sleep_till_next_minute(offset: int = 3) -> None:
     """
-    Sleep till next minutes plus 'offset' seconds.
+    Sleep till next full minute plus 'offset' seconds.
     """
     current_time = dt.datetime.now()
     next_minute = (current_time + dt.timedelta(minutes=1)).replace(
@@ -116,6 +118,7 @@ def sleep_till_next_minute(offset: int = 3) -> None:
     time.sleep(time_until_next_minute + offset)
 
 
-while True:
-    sleep_till_next_minute(offset=3)
-    fetch_data()
+if __name__ == "__main__":
+    while True:
+        sleep_till_next_minute(offset=3)
+        fetch_data()
