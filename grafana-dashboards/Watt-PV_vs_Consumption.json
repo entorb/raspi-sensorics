@@ -1,0 +1,433 @@
+{
+    "annotations": {
+        "list": [
+            {
+                "builtIn": 1,
+                "datasource": {
+                    "type": "grafana",
+                    "uid": "-- Grafana --"
+                },
+                "enable": true,
+                "hide": true,
+                "iconColor": "rgba(0, 211, 255, 1)",
+                "name": "Annotations & Alerts",
+                "type": "dashboard"
+            }
+        ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 23,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "000000001"
+            },
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "fixed"
+                    },
+                    "custom": {
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "min": -620,
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 0
+                            }
+                        ]
+                    },
+                    "unit": "watt"
+                },
+                "overrides": [
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "Differenz"
+                        },
+                        "properties": [
+                            {
+                                "id": "custom.fillOpacity",
+                                "value": 25
+                            },
+                            {
+                                "id": "custom.lineStyle",
+                                "value": {
+                                    "dash": [
+                                        0,
+                                        10
+                                    ],
+                                    "fill": "dot"
+                                }
+                            },
+                            {
+                                "id": "custom.gradientMode",
+                                "value": "scheme"
+                            },
+                            {
+                                "id": "color",
+                                "value": {
+                                    "fixedColor": "transparent",
+                                    "mode": "thresholds"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "HomeOffice"
+                        },
+                        "properties": [
+                            {
+                                "id": "color",
+                                "value": {
+                                    "fixedColor": "blue",
+                                    "mode": "fixed"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "Wohnzimmer"
+                        },
+                        "properties": [
+                            {
+                                "id": "color",
+                                "value": {
+                                    "fixedColor": "purple",
+                                    "mode": "fixed"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "PV"
+                        },
+                        "properties": [
+                            {
+                                "id": "color",
+                                "value": {
+                                    "fixedColor": "yellow",
+                                    "mode": "fixed"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "__systemRef": "hideSeriesFrom",
+                        "matcher": {
+                            "id": "byNames",
+                            "options": {
+                                "mode": "exclude",
+                                "names": [
+                                    "HomeOffice",
+                                    "Wohnzimmer",
+                                    "PV",
+                                    "Differenz"
+                                ],
+                                "prefix": "All except:",
+                                "readOnly": true
+                            }
+                        },
+                        "properties": [
+                            {
+                                "id": "custom.hideFrom",
+                                "value": {
+                                    "legend": true,
+                                    "tooltip": true,
+                                    "viz": true
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            "gridPos": {
+                "h": 22,
+                "w": 24,
+                "x": 0,
+                "y": 0
+            },
+            "id": 1,
+            "interval": "1m",
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "mode": "multi",
+                    "sort": "none"
+                }
+            },
+            "targets": [
+                {
+                    "alias": "PV raw",
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "000000001"
+                    },
+                    "groupBy": [
+                        {
+                            "params": [
+                                "$__interval"
+                            ],
+                            "type": "time"
+                        },
+                        {
+                            "params": [
+                                "null"
+                            ],
+                            "type": "fill"
+                        }
+                    ],
+                    "measurement": "Shelly3",
+                    "orderByTime": "ASC",
+                    "policy": "default",
+                    "refId": "A",
+                    "resultFormat": "time_series",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "watt_last"
+                                ],
+                                "type": "field"
+                            },
+                            {
+                                "params": [],
+                                "type": "mean"
+                            }
+                        ]
+                    ],
+                    "tags": [
+                        {
+                            "key": "room::tag",
+                            "operator": "=",
+                            "value": "Balkon"
+                        }
+                    ]
+                },
+                {
+                    "alias": "HomeOffice",
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "000000001"
+                    },
+                    "groupBy": [
+                        {
+                            "params": [
+                                "$__interval"
+                            ],
+                            "type": "time"
+                        },
+                        {
+                            "params": [
+                                "null"
+                            ],
+                            "type": "fill"
+                        }
+                    ],
+                    "hide": false,
+                    "measurement": "Shelly3",
+                    "orderByTime": "ASC",
+                    "policy": "default",
+                    "refId": "B",
+                    "resultFormat": "time_series",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "watt_last"
+                                ],
+                                "type": "field"
+                            },
+                            {
+                                "params": [],
+                                "type": "mean"
+                            }
+                        ]
+                    ],
+                    "tags": [
+                        {
+                            "key": "room::tag",
+                            "operator": "=",
+                            "value": "Torben"
+                        }
+                    ]
+                },
+                {
+                    "alias": "Wohnzimmer",
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "000000001"
+                    },
+                    "groupBy": [
+                        {
+                            "params": [
+                                "$__interval"
+                            ],
+                            "type": "time"
+                        },
+                        {
+                            "params": [
+                                "null"
+                            ],
+                            "type": "fill"
+                        }
+                    ],
+                    "hide": false,
+                    "measurement": "Shelly3",
+                    "orderByTime": "ASC",
+                    "policy": "default",
+                    "refId": "C",
+                    "resultFormat": "time_series",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "watt_last"
+                                ],
+                                "type": "field"
+                            },
+                            {
+                                "params": [],
+                                "type": "mean"
+                            }
+                        ]
+                    ],
+                    "tags": [
+                        {
+                            "key": "room::tag",
+                            "operator": "=",
+                            "value": "Wohnzimmer"
+                        }
+                    ]
+                }
+            ],
+            "title": "Stromverbrauch und -erzeugung",
+            "transformations": [
+                {
+                    "id": "calculateField",
+                    "options": {
+                        "alias": "HO+WH",
+                        "binary": {
+                            "left": "HomeOffice",
+                            "operator": "+",
+                            "reducer": "sum",
+                            "right": "Wohnzimmer"
+                        },
+                        "mode": "binary",
+                        "reduce": {
+                            "include": [
+                                "Shelly3.mean"
+                            ],
+                            "reducer": "diff"
+                        },
+                        "replaceFields": false
+                    }
+                },
+                {
+                    "id": "calculateField",
+                    "options": {
+                        "alias": "PV",
+                        "binary": {
+                            "left": "0",
+                            "operator": "-",
+                            "reducer": "sum",
+                            "right": "PV raw"
+                        },
+                        "mode": "binary",
+                        "reduce": {
+                            "reducer": "sum"
+                        }
+                    }
+                },
+                {
+                    "id": "calculateField",
+                    "options": {
+                        "alias": "Differenz",
+                        "binary": {
+                            "left": "HO+WH",
+                            "operator": "-",
+                            "reducer": "sum",
+                            "right": "PV raw"
+                        },
+                        "mode": "binary",
+                        "reduce": {
+                            "reducer": "sum"
+                        },
+                        "replaceFields": false
+                    }
+                }
+            ],
+            "type": "timeseries"
+        }
+    ],
+    "refresh": "1m",
+    "schemaVersion": 38,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+        "list": []
+    },
+    "time": {
+        "from": "now-3h",
+        "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Stromverbrauch und -erzeugung",
+    "uid": "d2e33c85-ba25-4f8f-a781-e0816e7f40fb",
+    "version": 13,
+    "weekStart": ""
+}
