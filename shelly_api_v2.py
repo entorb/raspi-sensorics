@@ -6,6 +6,7 @@ Access API gen2 of Shelly device (Plus Plug S) using digest auth.
 see https://shelly-api-docs.shelly.cloud/gen2/General/Authentication
 based on https://github.com/entorb/shelly-api
 """
+
 import hashlib
 import json
 import random
