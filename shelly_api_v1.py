@@ -17,7 +17,7 @@ from zoneinfo import ZoneInfo
 import requests
 
 from InfluxUploader import InfluxUploader
-from shelly_credentials import password
+from shelly_credentials import password, username
 from shelly_credentials import shelly1_ip as shelly_ip
 from shelly_credentials import username
 

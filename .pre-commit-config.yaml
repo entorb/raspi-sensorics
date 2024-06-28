@@ -63,7 +63,7 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.4.1"
+    rev: "v0.5.0"
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
@@ -91,7 +91,7 @@ repos:
   #     - id: mypy
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.39.0
+    rev: v0.41.0
     hooks:
       - id: markdownlint
         args: ["--disable", "MD013"]
@@ -117,4 +117,4 @@ repos:
   #     # - id: perlimports
 
 default_language_version:
-  python: python3.10
+  python: python3.9

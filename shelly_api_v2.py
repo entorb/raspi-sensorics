@@ -13,9 +13,8 @@ import random
 
 import requests
 
-from shelly_credentials import password
+from shelly_credentials import password, username
 from shelly_credentials import shelly2_ip as shelly_ip
-from shelly_credentials import username
 
 # public endpoint with no auth required
 # api_url = f"http://{shelly_ip}/shelly"

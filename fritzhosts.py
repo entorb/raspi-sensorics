@@ -16,10 +16,10 @@ my_measurement = "FritzHosts"
 # print(fc)  # print router model informations
 
 
-fh = FritzHosts(  # noqa: S106
+fh = FritzHosts(
     address="192.168.178.1",
     user="raspi",
-    password="xxx",
+    password="xxx",  # noqa: S106
 )
 
 # d = fh.get_specific_host_entry_by_ip('192.168.178.112')

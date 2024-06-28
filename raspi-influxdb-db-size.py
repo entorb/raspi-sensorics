@@ -2,7 +2,7 @@
 
 """Read size of InfluxDB."""
 
-import subprocess  # noqa: S404
+import subprocess
 
 from InfluxUploader import InfluxUploader
 
@@ -11,10 +11,11 @@ from InfluxUploader import InfluxUploader
 
 mydir = "/var/lib/influxdb/data"
 
-process = subprocess.run(  # noqa: S603 S607
+process = subprocess.run(  # noqa: S603
     ["sudo", "du", "--max-depth=1", mydir],
     capture_output=True,
     text=True,
+    check=False,
 )
 s = process.stdout
 
